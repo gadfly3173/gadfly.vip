@@ -1,0 +1,7 @@
+/builds/
+/public/
+/dist/
+/script/.cache
+/*.config.js
+/*.config.ts
+/node_modules/
