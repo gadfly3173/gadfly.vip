@@ -6,10 +6,10 @@
     "dev": "node server",
     "build": "vue-tsc --noEmit && yarn build:client && yarn build:server",
     "preview": "vite preview",
-    "build:noExternal": "npm run build:client && npm run build:server:noExternal",
+    "build:noExternal": "yarn run build:client && yarn run build:server:noExternal",
     "build:client": "vite build --ssrManifest --outDir dist/client",
-    "build:server": "vite build --ssr src/entry-server.ts --outDir dist/server",
-    "generate": "vite build --ssrManifest --outDir dist/static && npm run build:server && node prerender",
+    "build:server": "vite build --ssr src/entry-server.js --outDir dist/server",
+    "generate": "vue-tsc --noEmit && vite build --ssrManifest --outDir dist/static && yarn run build:server && node prerender",
     "serve": "cross-env NODE_ENV=production node server"
   },
   "dependencies": {

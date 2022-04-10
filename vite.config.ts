@@ -14,7 +14,7 @@ export default defineConfig({
   plugins: [
     vue(),
     legacy({
-      targets: ['defaults', '>= IE 11'],
+      targets: ['defaults', 'not IE 11'],
     }),
   ],
 })
