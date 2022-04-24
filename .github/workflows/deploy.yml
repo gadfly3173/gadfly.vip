@@ -60,5 +60,6 @@ jobs:
       - name: Deploy
         run: |
           cd dist/static
-          git commit -am "Automated Deploy"
+          git add -A
+          git commit -m "Automated Deploy"
           git push
