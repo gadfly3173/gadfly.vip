@@ -159,6 +159,7 @@ module.exports = {
     'no-param-reassign': ['error', { props: false }],
     'object-curly-newline': ['error', { multiline: true }],
     'import/no-extraneous-dependencies': 'off',
+    'vue/multi-word-component-names': 'off',
     // 优先使用 interface 而不是 type
     '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
   },
