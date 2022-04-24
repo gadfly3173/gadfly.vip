@@ -1,0 +1,64 @@
+name: Vite CI
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  GIT_USER: github-actions[bot]
+  GIT_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+  DEPLOY_REPO: gadfly3173/gadfly.vip
+  DEPLOY_BRANCH: gh_pages
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    name: Build on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [16.x]
+
+    steps:
+      - name: Setup Git
+        run: |
+          git config --global user.email "${{ env.GIT_EMAIL }}"
+          git config --global user.name "${{ env.GIT_USER }}"
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.DEPLOY_PRI }}
+          known_hosts: 'github.com'
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Checkout deploy repo
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ env.DEPLOY_REPO }}
+          ref: ${{ env.DEPLOY_BRANCH }}
+          path: dist/static
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+
+      - name: Install dependencies
+        run: |
+          yarn
+
+      - name: Generate Vite SSG
+        run: |
+          yarn generate
+
+      - name: Deploy
+        run: |
+          cd dist/static
+          git commit -am "Automated Deploy"
+          git push
